@@ -1,0 +1,219 @@
+###################
+# general settings
+"supported_llm":
+  - "sensechat-13B"
+  - "sensechat-120B" # recommended
+  - "sensechat-180B"
+  - "sensechat-120B-FT-iter0"
+  - "sensechat-120B-FT-SOTA"
+  - "sensenova-xs"
+  - "sensenova-xl" # recommended
+  - "ziya-13B" # recommended
+  - "gpt-3.5"
+  - "chatgpt"
+# llm_name should be one of those in "supported_llm"
+"llm_name": "sensechat-120B-FT-SOTA"
+# agent_type should be one of ("onestep", "sequential", "centurio_api_onestep")
+"agent_type": "centurio_api_onestep"
+# specify the currently running version of the agent, sequential_agent_v2 is recommended
+"agent_version":
+  "onestep": 2
+  "sequential": 2
+  "twostep": 1
+# specify the latest version of the "onestep" agent and the "sequential" agent to avoid invalid version assignment
+"latest_agent_version":
+  "onestep": 2
+  "sequential": 2
+  "twostep": 1
+# mode should be one of ("test", "val_planning", "end2end")
+# test mode means just test the basic ability of the llm
+# val_planning mode means evaluate the planning ability of the llm
+# end2end mode means evaluate the end2end (i.e., tool planning and tool execution) performance of the system
+"mode": "val_planning"
+"save_path": "./log/"
+# when `log_details` is set to True, all screen output will be saved into a .log file and can be visualized using the tail command
+"log_details": True
+"max_planning_retry_num": 5
+"max_tool_retry_num": 5 # 10
+"max_tool_select_num": 3 # for twostep agent
+"max_retry_num": 3
+"max_response_retry_num": 3
+"max_planning_num": 5 # 3
+# planning_threshold is used to define the minimum planning length
+"planning_threshold": 1
+"pred_path": "./result/"
+
+###################
+# prompt settings
+# prompt_type should be one of  ("prompt_onestep", "prompt_component_onestep") if agent_type is "onestep"
+# prompt_type will be default if agent_type is "sequential"
+"prompt_type": "prompt_component_onestep_centurio_api"
+"prompt_kwargs":
+  # prompt_name should be one of 
+  # ( "baseline", "role_baseline", "baseline_few_shot", "new_baseline", 
+  # "baseline_highlight", "new_baseline_highlight", "baseline_history", "new_baseline_history", 
+  # "en_baseline", "en_new_baseline", "baseline_order_1", "new_baseline_order_1",
+  # "simplified_1"
+  # "baseline_bmtools", "role_baseline_bmtools", "baseline_few_shot_bmtools", "new_baseline_bmtools", 
+  # "baseline_highlight_bmtools", "new_baseline_highlight_bmtools", "baseline_history_bmtools", "new_baseline_history_bmtools", 
+  # "en_baseline_bmtools", "en_new_baseline_bmtools", "baseline_order_1_bmtools", "new_baseline_order_1_bmtools",
+  # "simplified_1_bmtools" )
+  "prompt_name": "new_baseline"
+  "auto_prompt_name": "new_baseline_auto0"
+  "prompt_config": "default"
+  "prompt_component_config": "default"
+  "task_name": "centurio_api"
+"auto_prompt_kwargs":
+  "generation":
+    "num_subsamples": 3
+    # demos_mode should be one of ( "qt-pairs" "qta-tuples", "io-pairs" )
+    "demos_mode": "qt-pairs"
+    "num_demos": 3
+    # "num_prompts_per_subsample": 1
+  "evaluation":
+    "demos_retriever_model": "BAAI/bge-large-zh"
+    # "demos_retriever_model": "'moka-ai/m3e-base"
+    "demos_mode": "qta-tuples"
+    "num_demos": 2
+    # API_retriever
+    "add_retrieval": true
+    "corpus_tsv_path": "./data/retrieval/SenseCenturio/corpus.tsv"
+    "retrieval_model_path": "./models/retriever_model_bert-base-chinese/2023-09-14_22-09-06"
+    "retrieved_api_nums": 6
+
+###################
+# evaluate settings
+"eval": True
+"eval_type": "centurio_api"
+"supported_eval":
+  - "emb_sim"
+  - "api_emb_sim"
+  - "centurio_api"
+"eval_path": "./eval/"
+"eval_kwagrs":
+  # recommended sim_thresh shuold be ranging from 0.75 to 0.9
+  "sim_thresh": 0.85
+  "verbose": True
+  # gt_key should be one of ( "gt" "gt_plan_text", "gt_plan_API", "gt_plan_answer" )
+  "gt_key": "gt_plan_answer"
+
+###################
+# database settings
+"database_path": "sqlite:///database/音乐金曲奖.sqlite"
+"QA_path": "./database/qa_30_SenseCenturio.json"
+"log_name": "final_answer_of_planning"
+"question_range":
+  - 1
+  - 31
+"toolset":
+  - "Bing_search"
+  - "Slides_making"
+  - "Weather"
+# "toolset":
+#   - "SQL生成器"
+#   - "PythonREPL"
+
+###################
+# llm default settings
+"sensechat":
+  "model":
+    "sensechat-13B": "sensechat-bosc-0524"
+    "sensechat-120B": "SC-PTC-XL-V1-20230609" # "SC-PTC-XL-V1-20230601"
+    "sensechat-180B": "sensechat-001"
+  "api_user": "internal_scg_dev_3"
+  "api_secret_key": "8712027162944c8a83b2b4b7df1de9e5" # your api_secret_key
+  "url": "https://lm_experience.sensetime.com/v1/nlp/chat/completions"
+  "messages":
+    - "role": "user"
+      "content": ""
+  # sometimes sensechat works better at a low temperature
+  "temperature": 0.01 # 0.01 0.1 0.8
+  "top_p": 0.7
+  "max_new_tokens": 2048
+  "repetition_penalty": 1
+  "stream": False
+  "Content-Type": "application/json"
+
+"sensechat_finetune":
+  "model":
+    "sensechat-120B-FT-iter0": "http://10.119.26.27:2345/generate"
+    "sensechat-120B-FT-SOTA": "http://10.119.26.27:2345/generate"
+    "sensechat-120B-FT-LoRA": "http://10.118.7.178:2345/generate"
+  "url": "http://103.177.28.206:8000/api/generate"
+  # sometimes sensechat works better at a low temperature
+  "temperature": 0.01 #0.1 #1.5 #0.01 #0.8
+  "top_p": 0.95 #0.7 0.95
+  "max_new_tokens": 512 #2048 1024 512
+  "repetition_penalty": 1.03 #1 1.05 1.03
+  # "stop": []
+  "stop":
+    - "\n\n\n\n"
+    - "\n \n \n"
+  "Content-Type": "application/json"
+
+"sensenova":
+  "model":
+    "sensenova-xs": "nova-ptc-xs-v1"
+    "sensenova-xl": "nova-ptc-xl-v1"
+    # "sensenova-xl": "nova-ptc-xl-v1.2.1-0810"
+    # "sensenova-xl": "nova-ptc-xl-v2-8k-internal-test"
+  "api_user": "scg_test"
+  # "api_user": "test"
+  # the api_secret_key for sensenova can be generated using ./utils/generate_sensenova_key.py. For more information, refer to the details provided within that file
+  "api_secret_key": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiIyVWRuSndRblBlTUlkN3dlV3RNOWtLRDZTd2UiLCJleHAiOjE4MDAwMDAwMTY5MzgwODYwNSwibmJmIjoxNjkzODA4NjAwfQ.mhTutXtSa-Bta9Hpvwf1LVb-OeDN631I2FqpQKfwHQk"
+  # "api_secret_key": "6d60510bc67941ffbc7a72ed5e945fe7"
+  # # for sensenova-8k
+  # "api_secret_key": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiIyVXZnamhIVk5QYTI3VWlkSjU5MFdoMGRpZGEiLCJleHAiOjE2OTU2MjU3MzksIm5iZiI6MTY5MzgyNTczNH0.aXAVQ0jas8vg6GPMuUl5klaHx75QV8H-hETHYnfgT1I"
+  "url": "https://api.sensenova.cn/v1/llm/chat-completions"
+  # "url": "https://sensenova.sensetime.com/v1/nlp/extra/completions"
+  "messages":
+    - "role": "user"
+      "content": ""
+  "temperature": 0.8 # 0.8 0.2 0.1 0.01
+  "top_p": 0.7
+  "max_new_tokens": 1024 #2048 1024
+  "repetition_penalty": 1 #1 1.05
+  "stream": False
+  "Content-Type": "application/json"
+
+"ziya":
+  "model": "llama-13b-ziya-v1.1"
+  "url": "http://cluster-proxy.sh.sensetime.com:10101/v1/chat"
+  "messages":
+    - "role": "user"
+      "content": ""
+  "temperature": 0.1
+  "top_p": 0.85
+  "max_new_tokens": 1024
+  "disable_prompt_adapter": True
+  "do_sample": False
+  "Content-Type": "application/json"
+
+"gpt":
+  # the source should be one of ("openai", "api2d")
+  "source": "openai" # "api2d"
+  # the model_name should be one of ("gpt-4", "gpt-3.5-turbo", "text-davinci-003") according to the key
+  "model_name": "gpt-3.5-turbo" #
+  "max_tokens": 1024
+  "temperature": 0.7
+  "openai_api_key": "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"
+  "api2d_api_key": "fk200946-iF9xy7leAoUfmzWEGqenpaBlrUMyYj7G"
+  "url": "https://openai.api2d.net/v1"
+  "request_timeout": 240
+
+"chatgpt":
+  "model":
+    "chatgpt": "gpt-3.5-turbo-16k-0613"
+  "url": "https://openai.api2d.net/v1/chat/completions"
+  "messages":
+    - "role": "user"
+      "content": ""
+  "temperature": 0
+  "api_secret_key": "Bearer fk209248-qVuu8OsgIovDLczsd3ukAbwCO2Kc4S9H"
+  "top_p": 0.85
+  "api_user": "scg_test"
+  "max_new_tokens": 1024
+  "stream": False
+  "disable_prompt_adapter": True
+  "repetition_penalty": 1
+  "Content-Type": "application/json"

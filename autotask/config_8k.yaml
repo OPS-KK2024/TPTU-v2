@@ -1,0 +1,95 @@
+###################
+# general settings
+"supported_llm":
+  - "sensechat-13B"
+  - "sensechat-120B"
+  - "sensechat-180B"
+  - "sensenova-xs"
+  - "sensenova-xl"
+  - "ziya-13B"
+  - "chatgpt"
+# llm_name should be one of ("sensechat-13B", "sensechat-120B", "sensechat-180B", "sensenova-xs", "sensenova-xl", "ziya-13B")
+"llm_name": "sensenova-xl" # "sensechat-120B" # "ziya-13B" # "sensenova-xs" # "chatgpt"
+# test mode means just test the basic ability of the llm
+"mode": "val_planning" # "val_planning", "test"
+"save_path": "./log/test_0915_8k/"
+"log_name": "final_answer_of_planning"
+"max_retry_num": 10
+
+###################
+# database settings
+"database_path": "sqlite:///database/音乐金曲奖.sqlite"
+"knowledge_path": "./database/example_Use_Case_Name01.json" # knowledge path
+"QA_path": "./database/API_answer.json"
+"question_range":
+  - 1
+  - 26
+###################
+# llm default settings
+"sensechat":
+  "model":
+    "sensechat-13B": "sensechat-bosc-0524"
+    "sensechat-120B": "SC-PTC-XL-V1-20230609"
+    "sensechat-180B": "sensechat-001"
+  "api_user": "internal_scg_dev_3"
+  "api_secret_key": "8712027162944c8a83b2b4b7df1de9e5" # your api_secret_key
+  "url": "https://lm_experience.sensetime.com/v1/nlp/chat/completions"
+  "messages":
+    - "role": "user"
+      "content": ""
+  "temperature": 0.8
+  "top_p": 0.7
+  "max_new_tokens": 2048
+  "repetition_penalty": 1
+  "stream": False
+  "Content-Type": "application/json"
+
+"sensenova":
+  "model":
+    "sensenova-xs": "nova-ptc-xs-v1"
+#    "sensenova-xl": "nova-ptc-xl-v1"
+    "sensenova-xl": "nova-ptc-xl-v2-1-0-8k-internal"
+  "api_user": "scg_test"
+  # the api_secret_key for sensenova can be generated using ./utils/generate_sensenova_key.py. For more information, refer to the details provided within that file
+  "api_secret_key": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiIyVXZnamhIVk5QYTI3VWlkSjU5MFdoMGRpZGEiLCJleHAiOjE2OTY0NTkxMjcsIm5iZiI6MTY5NDY1OTEyMn0.Mhm99Pq1BDZxoulAmSir5i-IWPbRz4vyWnTIbAjAItk"
+  "url": "https://api.sensenova.cn/v1/llm/chat-completions"
+  "messages":
+    - "role": "user"
+      "content": ""
+  "temperature": 0.8
+  "top_p": 0.7
+  "max_new_tokens": 1024
+  "repetition_penalty": 1
+  "stream": False
+  "Content-Type": "application/json"
+
+"ziya":
+  "model": "llama-13b-ziya-v1.1"
+  "url": "http://cluster-proxy.sh.sensetime.com:10101/v1/chat"
+  "messages":
+    - "role": "user"
+      "content": ""
+  "temperature": 0.1
+  "top_p": 0.85
+  "max_new_tokens": 1024
+  "disable_prompt_adapter": True
+  "do_sample": False
+  "Content-Type": "application/json"
+
+
+"chatgpt":
+  "model":
+    "chatgpt": "gpt-3.5-turbo-0613"
+  "url": "https://openai.api2d.net/v1/chat/completions"
+  "messages":
+    - "role": "user"
+      "content": ""
+  "temperature": 0
+  "api_secret_key": "Bearer fk200946-iF9xy7leAoUfmzWEGqenpaBlrUMyYj7G"
+  "top_p": 0.85
+  "api_user": "scg_test"
+  "max_new_tokens": 1024
+  "stream": False
+  "disable_prompt_adapter": True
+  "repetition_penalty": 1
+  "Content-Type": "application/json"
