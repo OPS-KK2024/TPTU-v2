@@ -1,0 +1,275 @@
+{
+    "Q1": {
+    "query": ["tmp = select count(*) from (select 名称 from 各届金曲奖 where 主持人 not in ( select 主持人 from 各届金曲奖 group by 主持人 order by avg ( 奖项数量 ) asc limit 2 ))", 
+              "import math; tmp2 = math.log10(100)",
+              "tmp > tmp2"
+            ],
+    "db_id": "音乐金曲奖", 
+    "question": "除了平均奖项最少的2个主持人以外，给出其他主持人主持的金曲奖的总个数，记为tmp; 然后计算以10为底100的对数值, 记为tmp2； 最后比较tmp是否大于tmp2？", 
+    "answer": [3, 2, true],
+    "tool_answer": [
+        "SQL生成器",
+        "PythonREPL",
+        "PythonREPL"
+    ]
+},
+    "Q2": {
+    "query": ["select count(*) from (select 姓名 from 歌手 where 出生地 not in ( select 出生地 from 歌手 group by 出生地 order by count ( * ) desc limit 2 ))", 
+              "import math; tmp = math.factorial(3)"
+            ],
+    "db_id": "音乐金曲奖", 
+    "question": "不是歌手最多的2个出生地，给出其他出生地的歌手的个数，并给出这个个数的阶乘", 
+    "question_id": "qid000315", 
+    "answer": [3, 6],
+    "tool_answer": [
+        "SQL生成器",
+        "SQL生成器",
+        "PythonREPL"
+    ]
+},
+    "Q3": {
+    "query": ["select count(*) from (select 姓名 from 歌手 where 专辑数量 > ( select min ( 专辑数量 ) from 歌手 ))", 
+              "import math; math.sqrt(4) < 2"
+    ],
+    "db_id": "音乐金曲奖", 
+    "question": "有多少个歌手的专辑数量多于所有歌手的最小专辑数量， 开方小于2吗", 
+    "question_id": "qid000380", 
+    "answer": [4, false],
+    "tool_answer": [
+        "SQL生成器",
+        "PythonREPL"
+    ]
+},
+    "Q4": {
+    "query": ["select 出生地 姓名 from 歌手 where 专辑数量 > ( select avg ( 专辑数量 ) from 歌手 )", 
+              "import math; math.cos(math.radians(60)) + math.factorial(10)"
+            ],
+    "db_id": "音乐金曲奖", 
+    "question": "哪些歌手专辑数量比所有歌手平均专辑数量要多,歌手出生在哪里？然后计算一下cos60度加上10的阶乘", 
+    "question_id": "qid000389", 
+    "answer": [["香港", "北京", "马来西亚", "安徽省蚌埠市"], 3628800.5],
+    "tool_answer": [
+        "SQL生成器",
+        "SQL生成器",
+        "PythonREPL"
+    ]
+},
+    "Q5": {
+    "query": ["import math; math.pow(1000, 1/3) + math.sqrt(10000)",
+              "select 出生地 姓名 from 歌手 where 专辑数量 < ( select max ( 专辑数量 ) from 歌手 )"
+            ],
+    "db_id": "音乐金曲奖", 
+    "question": "首先计算1000的开立方根加上10000的开平方根，然后从数据库中查询哪些歌手的专辑数量不为最多,歌手出生在哪里？", 
+    "question_id": "qid000390", 
+    "answer": [110, "台湾"],
+    "tool_answer": [
+        "PythonREPL",
+        "SQL生成器",
+        "SQL生成器"
+    ]
+},
+    "Q6": {
+    "query": ["import math; tmp = math.factorial(3)",
+              "tmp2 = select count(*) from (select 姓名 from 歌手 where 专辑数量 <= ( select avg ( 专辑数量 ) from 歌手 where 出生地 == '北京' ))", 
+              "tmp > tmp2"
+            ],
+    "db_id": "音乐金曲奖", 
+    "question": "首先计算3的阶乘, 记为tmp, 然后从数据库中查询有几个歌手的专辑数量不超过北京的歌手专辑的平均数量, 并给出这个个数是否大于tmp", 
+    "answer": [6, 5, false],
+    "tool_answer": [
+        "PythonREPL",
+        "SQL生成器",
+        "SQL生成器",
+        "PythonREPL"
+    ]
+},
+    "Q7": {
+    "query": [
+        "select count(*) from (select 姓名 from 歌手 where 专辑数量 == ( select avg ( 专辑数量 ) from 歌手 where 出生地 == '北京' ))", 
+        "import math; math.sqrt(4)"
+    ],
+    "db_id": "音乐金曲奖", 
+    "question": "有几个歌手的专辑数量是北京的歌手专辑的平均的数量, 给出这个数字的平方根", 
+    "answer": [4, 2],
+    "tool_answer": [
+        "SQL生成器",
+        "PythonREPL"
+    ]
+},
+    "Q8": {
+    "query": ["select 姓名 红粉数量 from 歌手 where 专辑数量 >= ( select avg ( 专辑数量 ) from 歌手 where 出生地 == '北京' )", 
+              "555 ** (1/3)"
+            ],
+    "db_id": "音乐金曲奖", 
+    "question": "哪些歌手的专辑数量大于等于所有北京歌手的平均专辑数量，给出这些歌手的名字以及红粉数量, 并计算其中红粉数量最少的数字的开立方", 
+    "question_id": "qid000401", 
+    "answer": [["周杰伦:888", "崔健:777", "戴佩妮:666", "李荣浩:555"], 8.217965764877086],
+    "tool_answer": [
+        "SQL生成器",
+        "SQL生成器",
+        "SQL生成器",
+        "PythonREPL"
+    ]
+},
+    "Q9": {
+    "query": ["select count(*) from (select 姓名 from 歌手 where 词条id not in ( select 提名歌手id from 金曲奖提名名单 ))", 
+              "import math; math.factorial(2)"
+            ],
+    "db_id": "音乐金曲奖", 
+    "question": "在金曲奖中没有被提过名的歌手有哪些？给出数量。并计算该数的阶乘", 
+    "question_id": "qid000780", 
+    "answer": [2, 2],
+    "tool_answer": [
+        "SQL生成器",
+        "PythonREPL"
+    ]
+},
+    "Q10": {
+    "query": ["result = select count(*) from (select 姓名 , 性别 from 歌手 where 词条id not in ( select 获奖歌手id from 金曲奖获奖名单 ))", 
+              "import math; result == math.factorial(2)"
+            ],
+    "db_id": "音乐金曲奖", 
+    "question": "有几个歌手没有在金曲奖中获过奖，等于2的阶乘吗", 
+    "question_id": "qid000875", 
+    "answer": [2, true],
+    "tool_answer": [
+        "SQL生成器",
+        "PythonREPL"
+    ]
+},
+    "Q11": {
+    "query": ["import math;  math.factorial(10)",
+              "select 姓名 , 性别 from 歌手 where 词条id not in ( select 歌手id from 歌手签约唱片公司 )"
+            ],
+    "db_id": "音乐金曲奖", 
+    "question": "首先计算10的阶乘, 然后从数据库中查询哪些歌手没有签约任何唱片公司？给出名字和性别。", 
+    "question_id": "qid000884", 
+    "answer": [3628800, "戴佩妮:男"],
+    "tool_answer": [
+        "PythonREPL",
+        "SQL生成器",
+        "SQL生成器"
+    ]
+},
+    "Q12": {
+    "query":["import math; math.log10(1000)",
+             "( select 提名歌手id from 金曲奖提名名单 ) except ( select 获奖歌手id from 金曲奖获奖名单 )"
+            ], 
+    "db_id": "音乐金曲奖", 
+    "question": "首先计算以10为底1000的对数，然后从数据库中查询有哪些歌手在金曲奖中仅提名但未获奖", 
+    "question_id": "qid005742", 
+    "answer": [3.0, ["蔡依林", "李荣浩"]],
+    "tool_answer": [
+        "PythonREPL",
+        "SQL生成器"
+    ]
+},
+    "Q13": {
+    "query": ["select 主持人 from 各届金曲奖 group by 主持人 having avg ( 奖项数量 ) >= ( select max ( 奖项数量 ) from 各届金曲奖 where 年份 <= 2018 )",
+              "select count(*) from (select 主持人 from 各届金曲奖 group by 主持人 having avg ( 奖项数量 ) >= ( select max ( 奖项数量 ) from 各届金曲奖 where 年份 <= 2018 ))",
+              "import math; math.log(3)"
+            ], 
+    "db_id": "音乐金曲奖", 
+    "question": "哪些主持人其主持的金曲奖平均所设奖项数大于或等于在2018年及其之前举办的金曲奖最大奖项数，总共有多少个，这个数字的log值是多少", 
+    "question_id": "qid006239", 
+    "answer": [["萧敬腾", "莫文蔚", "陶晶莹"], 3, 1.0986122886681098],
+    "tool_answer": [
+        "SQL生成器",
+        "SQL生成器",
+        "PythonREPL"
+    ]
+},
+    "Q14": {
+    "query": ["import math; math.cos(math.radians(60))*20",
+              "select 奖项数量 from 各届金曲奖 where 奖项数量 < 28 order by 奖项数量 asc limit 1"
+            ],
+    "db_id": "音乐金曲奖", 
+    "question": "计算cos60度并乘上20, 给出奖项数量在28个之下的最小的奖项数量", 
+    "question_id": "qid007446", 
+    "answer": [10, 22],
+    "tool_answer": [
+        "PythonREPL",
+        "SQL生成器"
+    ]
+},
+    "Q15": {
+    "query": ["result = select 奖项数量 from 各届金曲奖 order by 奖项数量 asc limit 1", 
+              "import math; math.sin(math.radians(result))"
+            ],
+    "db_id": "音乐金曲奖", 
+    "question": "给出最少的的奖项数量，并使用python code 计算这个数量对应的角度的sin值", 
+    "question_id": "qid007447", 
+    "answer": [22, 0.374606593415912],
+    "tool_answer": [
+        "SQL生成器",
+        "PythonREPL"
+    ]
+},
+    "Q16": {
+    "query": ["result = select a.入围作品数量 - b.入围作品数量 from ( select 入围作品数量 from 各届金曲奖 where 名称 == '第27届台湾金曲奖' ) a , ( select 入围作品数量 from 各届金曲奖 where 名称 == '第28届台湾金曲奖' ) b", 
+              "result > 1000 ** (1/3)"
+            ],
+    "db_id": "音乐金曲奖", 
+    "question": "第27届台湾金曲奖比第28届在入围作品上多了多少, 有1000的开立方多吗？", 
+    "question_id": "qid017912", 
+    "answer": [24, true],
+    "tool_answer": [
+        "SQL生成器",
+        "PythonREPL"
+    ]
+},
+    "Q17": {
+    "query": ["tmp = 1000 ** (1/3) + 2 ** 3",
+              "select a.参赛作品数量 - b.参赛作品数量 from ( select 参赛作品数量 from 各届金曲奖 where 名称 == '第27届台湾金曲奖' ) a , ( select 参赛作品数量 from 各届金曲奖 where 名称 == '第28届台湾金曲奖' ) b"
+            ],
+    "db_id": "音乐金曲奖", 
+    "question": "计算1000的开立方加上2的三次方的结果,存为变量tmp，然后从数据库中查询第27届台湾金曲奖比第28届多了多少参加比赛的作品", 
+    "question_id": "qid017913", 
+    "answer": [18, 4757],
+    "tool_answer": [
+        "PythonREPL",
+        "SQL生成器"
+    ]
+},
+    "Q18": {
+    "query": ["a=8; b=10; tmp = a ** (1/3) + b ** 3;",
+              "tmp2 = select a.参赛作品数量 / b.参赛作品数量 from ( select 参赛作品数量 from 各届金曲奖 where 名称 == '第27届台湾金曲奖' ) a , ( select 参赛作品数量 from 各届金曲奖 where 名称 == '第28届台湾金曲奖' ) b", 
+              "tmp > tmp2"
+            ],
+    "db_id": "音乐金曲奖", 
+    "question": "a=8, b=10, 计算a的开立方加上b的三次方的结果,存为变量tmp，然后从数据库中查询第27届台湾金曲奖的参加比赛作品数量是第28届的多少倍，最后比较tmp比这个倍数大吗", 
+    "question_id": "qid017915", 
+    "answer": [1002, 1, true],
+    "tool_answer": [
+        "PythonREPL",
+        "SQL生成器",
+        "PythonREPL"
+    ]
+},
+    "Q19": {
+    "query": ["select a.奖项数量 / b.奖项数量 from ( select 奖项数量 from 各届金曲奖 where 名称 == '第27届台湾金曲奖' ) a , ( select 奖项数量 from 各届金曲奖 where 名称 == '第28届台湾金曲奖' ) b", 
+              "result = a ** 3"
+            ],
+    "db_id": "音乐金曲奖", 
+    "question": "第27届台湾金曲奖设立的奖项数是第28届奖项数的多少倍, 求出这个倍数的三次方", 
+    "question_id": "qid017916", 
+    "answer": [1, 3],
+    "tool_answer": [
+        "SQL生成器",
+        "PythonREPL"
+    ]
+},
+    "Q20": {
+    "query": ["result = select a.演唱会总场次 - b.演唱会总场次 from ( select 演唱会总场次 from 歌手 where 姓名 == '周杰伦' )  a , ( select 演唱会总场次 from 歌手 where 姓名 == '李荣浩' )  b", 
+              "import math; b=math.sqrt(10); return result > b"
+            ],
+    "db_id": "音乐金曲奖", 
+    "question": "周杰伦比李荣浩多开了多少场次的演唱会, 这个场数是否比10的开根号大？", 
+    "question_id": "qid018332", 
+    "answer": [0, false],
+    "tool_answer": [
+        "SQL生成器",
+        "PythonREPL"
+    ]
+}
+}
